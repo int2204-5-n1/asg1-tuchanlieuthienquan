@@ -29,41 +29,39 @@ public class dictionary {
 //    DictionaryCommandLine goi = new DictionaryCommandLine();
      public void insertFormCommandline() {
         Scanner ai = new Scanner(System.in);
-        int n;
+        int n;//nhâp so lương tu;
         n = ai.nextInt();
         for (int i = 0; i < n; i++) {
-            String Tagret = ai.nextLine();
+            String Tagret = ai.nextLine();//nhap 2 string của từng n từ bàn phím;
             String Explain = ai.nextLine();
            // Word word = new Word(Tagret, Explain);
-            word_.put(Tagret, Explain);
+            word_.put(Tagret, Explain);//them tư vào bảng map;
         }
     }
     public void insertFromFile() {
         File file = new File("dictionaries.txt");
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
-            br.readLine();
+            br.readLine();// đọc từng dòng;
             int i = 0;
             String line = "";
-            for (i = 0; (line = br.readLine()) != null; i++){
+            for (i = 0; (line = br.readLine()) != null; i++){//vòng lặp để chuyển đến dòng tiếp theo
                 
-                String[] a = line.split("\\s", 2);
+                String[] a = line.split("\\s", 2);//gặp dấu " " tách thành 2 xâu;
                 
-                word_.put(a[0],a[1]);
+                word_.put(a[0],a[1]);//them vao mang word_ 2 xâu vừa tách là key và value
             }
-            br.close();
+            br.close();// đóng luồng;
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace();//các lỗi khi  không đọc đc file v.v;
         }
         }
 
        public String dictionaryLookup(String xt) {
-           //Scanner sca = new Scanner(System.in);
-          // System.out.println("Tu can tim: ");
-           //String xt = sca.nextLine();
-           if (word_.containsKey((xt))) {
+
+           if (word_.containsKey((xt))) {//kiểm tra các string key trong bảng map có chứa xt không;
                System.out.println("nghia cua tu");
-               System.out.println(word_.get(xt));
+               // in ra value của xt
                return word_.get(xt);
            }
            //System.out.println("Khong co tu nay");
@@ -75,14 +73,10 @@ public class dictionary {
          }
        }
      public int suatu(String xt, String nghia) {
-         //Scanner sca = new Scanner(System.in);         
-             //System.out.println("nhạp tu can xua:");
-             //String xt = sca.nextLine();
-             if (word_.containsKey(xt)) {
-                 //System.out.println("nhap nghia cua tu:");
-                 //String nghia = sca.nextLine();
-                 word_.replace(xt, nghia);
-                 dictionaryExportToFile();
+         //Scanner sca = new Scanner(System.in)
+             if (word_.containsKey(xt)) {//kiểm tra key có chứa xt không
+                 word_.replace(xt, nghia);//cập nhập lại  velue là nghĩa
+                 dictionaryExportToFile();//ghi ra file đè lên file cũ
                  return 1;
                  
              }
@@ -91,24 +85,19 @@ public class dictionary {
          
      }
      public int themtu(String tu, String nghia){
-         //Scanner sac = new Scanner(System.in);
-         //System.out.println("Từ cần them: ");
-         //System.out.println("Nghĩa của từ: ");
-         //String nghia = sac.nextLine();
-         if(dictionaryLookup(tu)=="khong tim thay"){
-            word_.put(tu, nghia);
-            dictionaryExportToFile();
+
+         if(dictionaryLookup(tu)=="khong tim thay"){//gọi hàm dictionaryLoohup để tìm;
+            word_.put(tu, nghia);//thêm vào bảng map nếu bảng chưa có;
+            dictionaryExportToFile();//ghi ra file đè lên file cũ;
             return 1;
          }
          else return 0;
      }
      public int xoatu(String tx){
-         //Scanner sca = new Scanner(System.in);
-        // System.out.println("nhap tu can xoa");
-         //String tx = sca.nextLine();
-         if(word_.containsKey((tx))){
-             word_.remove(tx);
-             dictionaryExportToFile();
+
+         if(word_.containsKey((tx))){// kiểm tra key có chứa tx không
+             word_.remove(tx);//xóa key và value tx;
+             dictionaryExportToFile();//ghi ra file đè lên file cu;
              return 1;
          }
          System.out.println("không co tu nay");
@@ -116,10 +105,10 @@ public class dictionary {
 
      }
      public int dictionarySearcher(String w){             
-        Set<String> keySet= word_.keySet();
+        Set<String> keySet= word_.keySet();// trỏ dến thành phần key của bảng map;
         int kt=0;
-        for(String i: keySet) {
-            if(w.length()<=i.length()){
+        for(String i: keySet) {//duyệt key của mảng;
+            if(w.length()<=i.length()){// tìm từ có độ dài lớn hơn w;
                 String a=i.toLowerCase().substring(0,w.length());
                 if(a.equals(w)) {
                     word_2.put(i, word_.get(i));
@@ -156,7 +145,7 @@ public class dictionary {
          File file = new File("dictionaries.txt");
          try(PrintWriter pw = new PrintWriter(file)){
              for(Map.Entry<String,String> m :word_.entrySet()){
-                 pw.println(m.getKey()+" "+m.getValue());
+                 pw.println(m.getKey()+" "+m.getValue());// ghi ra file;
              }
          }
        catch (Exception e){
